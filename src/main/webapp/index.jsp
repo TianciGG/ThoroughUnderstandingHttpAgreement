@@ -7,21 +7,25 @@
 <title>实现web安全之防盗链</title>
 <script type="text/javascript" src="static/jquery.min.js"></script>
 <script type="text/javascript">
-   function btnClick(){
-	   $.ajax({
-           type : "POST",
-           async : false,//同步
-           url : "http://localhost/UserFormServlet1?userName=张三&sex=male",
-           dataType : "jsonp",//数据类型为jsonp  
-           jsonp : "jsonpCallback",//服务端用于接收callback调用的function名的参数  
-           success : function(data) {
-               alert(data.result);
-           },
-           error : function() {
-               alert('fail');
-           }
-        });
-   }
+  $(function(){
+	  alert("jquery环境成功！");
+  });
+  function btnClick(){
+	//造成跨域请求
+    $.ajax({
+        type : "POST",//虽然定义请求类型为post，但是通过观察实际请求行可知其为get请求，所以jsonp底层发送的是get请求
+        dataType : "jsonp",//数据类型为jsonp  
+        jsonp : "jsonpCallback",//服务端用于接收callback调用的function名的参数  
+        url : "http://www.chauncywang2.com/B/UserFormServlet",//另一个网站的地址
+        data: "userName=张三&sex=male",		
+        success : function(data) {
+            alert(data.result);
+        },
+        error : function() {
+            alert('fail');
+        }
+    }); 
+  }
 </script>
 </head>
 <body>
